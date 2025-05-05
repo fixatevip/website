@@ -1,0 +1,227 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Improve touch targets on mobile */
+  @media (max-width: 768px) {
+    button,
+    a {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    input,
+    select,
+    textarea {
+      font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+  }
+
+  /* Prevent horizontal overflow on mobile */
+  .container {
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  /* Mobile-specific styles */
+  @media (max-width: 768px) {
+    .mobile-full-width {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+    }
+
+    .mobile-padding {
+      @apply px-4;
+    }
+
+    .mobile-stack {
+      @apply flex-col;
+    }
+  }
+
+  .glitch-text {
+    position: relative;
+    display: inline-block;
+  }
+
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+
+  .glitch-text::before {
+    animation: glitch-effect 3s infinite;
+    color: hsl(var(--primary));
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    transform: translate(-0.025em, -0.0125em);
+  }
+
+  .glitch-text::after {
+    animation: glitch-effect 2s infinite;
+    color: hsl(var(--primary));
+    clip-path: polygon(0 80%, 100% 20%, 100% 100%, 0 100%);
+    transform: translate(0.025em, 0.0125em);
+  }
+
+  @keyframes glitch-effect {
+    0% {
+      opacity: 0;
+    }
+    2% {
+      opacity: 1;
+      transform: translate(0.025em, 0.0125em);
+    }
+    4% {
+      opacity: 0;
+    }
+    8% {
+      opacity: 1;
+      transform: translate(-0.025em, -0.0125em);
+    }
+    10% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .focus-within\:glitch-effect:focus-within {
+    position: relative;
+    z-index: 1;
+  }
+
+  .focus-within\:glitch-effect:focus-within::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      hsl(var(--primary) / 0.1) 45%,
+      hsl(var(--primary) / 0.2) 50%,
+      hsl(var(--primary) / 0.1) 55%,
+      transparent 100%
+    );
+    z-index: -1;
+    animation: glitch-border 2s linear infinite;
+  }
+
+  @keyframes glitch-border {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 200% 0%;
+    }
+  }
+
+  /* Pixelated grid pattern */
+  .bg-grid-pattern {
+    background-image: linear-gradient(to right, hsl(var(--primary) / 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--primary) / 0.1) 1px, transparent 1px);
+    background-size: 8px 8px;
+  }
+
+  /* Pixel transition effect */
+  .pixel-transition {
+    position: relative;
+  }
+
+  .pixel-transition::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to right, transparent 7px, hsl(var(--background)) 7px),
+      linear-gradient(to bottom, transparent 7px, hsl(var(--background)) 7px);
+    background-size: 8px 8px;
+    z-index: -1;
+    animation: pixel-fade 0.8s ease-out forwards;
+    pointer-events: none;
+  }
+
+  @keyframes pixel-fade {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* Mobile touch feedback */
+  @media (max-width: 768px) {
+    .touch-feedback {
+      @apply active:scale-95 transition-transform;
+    }
+  }
+}
